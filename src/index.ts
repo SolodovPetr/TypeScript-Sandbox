@@ -1,8 +1,15 @@
 import { User } from './User';
 import { Company } from './Company';
-import { initCustomMap } from '../mapsapikey';
+import { initGoogleMapsScript } from '../mapsapikey';
+import { CustomMap } from './CustomMap';
 
-initCustomMap('map');
+initGoogleMapsScript();
 
-const user = new User();
-const company = new Company();
+// Set callback for google maps scripts loaded
+(window as any).initMap = function (): void {
+  const user = new User();
+  const company = new Company();
+  const customMap = new CustomMap('map');
+  customMap.addMarker(user);
+  customMap.addMarker(company);
+};
