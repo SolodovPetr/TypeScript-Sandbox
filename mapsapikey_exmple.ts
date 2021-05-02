@@ -1,19 +1,17 @@
+import { CustomMap } from './src/CustomMap';
+
 // Create the script tag, set the appropriate attributes
 let script = document.createElement('script');
+script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY=initMap';
+script.defer = true;
 
-script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap';
-script.async = true;
-
-let map: google.maps.Map;
-
+// Set callback for google scripts loaded
 (window as any).initMap = function (): void {
-  map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 8,
-  });
+  // Now we can init Map
+  new CustomMap('map');
 };
 
-export function appendMapsScript() {
-  // Append the 'script' element to 'body'
+export function initCustomMap() {
+  // Append the 'script' element to 'head'
   document.head.appendChild(script);
 }
