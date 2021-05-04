@@ -1,9 +1,4 @@
-interface Mappable {
-  location: {
-    lat: number;
-    lng: number;
-  };
-}
+import { Mappable } from './interfaces';
 
 export class CustomMap {
   private googleMap: google.maps.Map;
@@ -19,12 +14,22 @@ export class CustomMap {
   }
 
   addMarker(mappable: Mappable): void {
-    new google.maps.Marker({
+    let marker: google.maps.Marker;
+
+    marker = new google.maps.Marker({
       map: this.googleMap,
+      title: mappable.markerTitle,
       position: {
         lat: mappable.location.lat,
         lng: mappable.location.lng,
       },
+    });
+
+    marker.addListener('click', () => {
+      const infowindow = new google.maps.InfoWindow({
+        content: mappable.getMarkerContent(),
+      });
+      infowindow.open(this.googleMap, marker);
     });
   }
 }
